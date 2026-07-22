@@ -120,7 +120,7 @@ export default function HomePage() {
 
       <div className="space-y-6 px-4 py-4">
         <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#d9f2e3] to-[#eefaf2]">
-          <div className="relative z-10 p-5 pr-28">
+          <div className="relative z-0 p-5 pr-28">
             <p className="text-lg font-bold text-foreground">
               Small Act, <span className="text-brand">Big Impact</span>
             </p>
