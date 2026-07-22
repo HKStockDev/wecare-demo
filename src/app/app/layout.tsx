@@ -11,8 +11,11 @@ import {
   User,
 } from "lucide-react";
 import { AppSideMenu } from "@/components/AppSideMenu";
+import { LoginNotificationToast } from "@/components/LoginNotificationToast";
+import { PageMotion } from "@/components/Motion";
 import { AppMenuContext } from "@/lib/app-menu";
 import { useAuth } from "@/lib/auth";
+import { useNotifications } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -22,6 +25,11 @@ const tabs = [
   { href: "/app/messages", label: "Messages", icon: MessageCircle },
   { href: "/app/profile", label: "Profile", icon: User },
 ];
+
+function UserLoginToast() {
+  const { notifications, ready } = useNotifications();
+  return <LoginNotificationToast notifications={notifications} ready={ready} />;
+}
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -52,11 +60,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AppMenuContext.Provider value={menuApi}>
-      <div className="h-dvh overflow-hidden bg-[#eef2f0]">
+      <UserLoginToast />
+      <div className="h-dvh overflow-hidden bg-[#eef2f0] anim-page">
         <div className={cn("phone-shell", hideNav ? "" : "pb-0")}>
           <AppSideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
           <div className={cn("phone-shell-scroll", !hideNav && "pb-24")}>
-            {children}
+            <PageMotion key={pathname}>{children}</PageMotion>
           </div>
           {!hideNav && (
             <nav className="absolute bottom-0 left-0 right-0 z-20 border-t border-border bg-white px-2 pb-3 pt-2">
@@ -71,7 +80,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                       <Link
                         key={tab.href}
                         href={tab.href}
-                        className="-mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-brand/40"
+                        className="-mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-brand/40 anim-press"
                       >
                         <Plus className="h-7 w-7" strokeWidth={2.5} />
                       </Link>

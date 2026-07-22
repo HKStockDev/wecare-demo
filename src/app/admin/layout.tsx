@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BarChart3,
   Bell,
+  ChevronDown,
   CreditCard,
   FileText,
   FolderHeart,
@@ -19,6 +20,8 @@ import {
 import Image from "next/image";
 import { Avatar } from "@/components/Avatar";
 import { BrandLogo } from "@/components/BrandLogo";
+import { LoginNotificationToast } from "@/components/LoginNotificationToast";
+import { PageMotion } from "@/components/Motion";
 import { AdminAlertsProvider, useAdminAlerts } from "@/lib/admin-alerts";
 import { useAuth } from "@/lib/auth";
 import { cn, timeAgo } from "@/lib/utils";
@@ -45,7 +48,7 @@ function AdminBell() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="relative rounded-full border border-border p-2 hover:bg-gray-50"
+        className="relative rounded-full border border-border p-2 hover:bg-gray-50 anim-press"
         aria-label="Notifications"
       >
         <Bell className="h-4 w-4 text-muted" />
@@ -63,7 +66,7 @@ function AdminBell() {
             aria-label="Close notifications"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 z-30 mt-2 w-80 overflow-hidden rounded-2xl border border-border bg-white shadow-xl">
+          <div className="absolute right-0 z-30 mt-2 w-80 overflow-hidden rounded-2xl border border-border bg-white shadow-xl anim-slide-down">
             <div className="flex items-center justify-between border-b border-border px-3 py-2.5">
               <p className="text-sm font-bold">Notifications</p>
               {unreadCount > 0 && (
@@ -112,6 +115,111 @@ function AdminBell() {
   );
 }
 
+function AdminProfileMenu() {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  if (!user) return null;
+
+  async function handleSignOut() {
+    setOpen(false);
+    await logout();
+    router.replace("/admin/login");
+  }
+
+  return (
+    <div className="relative" ref={menuRef}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "flex items-center gap-2 rounded-xl px-1.5 py-1 hover:bg-gray-50 anim-press",
+          open && "bg-gray-50"
+        )}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-label="Account menu"
+      >
+        <Avatar src={user.avatar_url} name={user.full_name} size={36} />
+        <div className="hidden text-left sm:block">
+          <p className="text-sm font-semibold leading-tight">{user.full_name}</p>
+          <p className="text-[11px] text-muted">Administrator</p>
+        </div>
+        <ChevronDown
+          className={cn(
+            "hidden h-4 w-4 text-muted transition-transform sm:block",
+            open && "rotate-180"
+          )}
+        />
+      </button>
+      {open && (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-20 cursor-default"
+            aria-label="Close account menu"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            role="menu"
+            className="absolute right-0 z-30 mt-2 w-56 overflow-hidden rounded-2xl border border-border bg-white shadow-xl anim-slide-down"
+          >
+            <div className="border-b border-border px-3 py-3">
+              <p className="truncate text-sm font-bold">{user.full_name}</p>
+              <p className="truncate text-xs text-muted">{user.email}</p>
+            </div>
+            <div className="p-1.5">
+              <Link
+                href="/admin/settings"
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-foreground hover:bg-gray-50"
+              >
+                <Settings className="h-4 w-4 text-muted" />
+                Settings
+              </Link>
+              <Link
+                href="/admin/notifications"
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-foreground hover:bg-gray-50"
+              >
+                <Bell className="h-4 w-4 text-muted" />
+                Notifications
+              </Link>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => void handleSignOut()}
+                className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign out
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function AdminLoginToast() {
+  const { notifications, ready } = useAdminAlerts();
+  return <LoginNotificationToast notifications={notifications} ready={ready} />;
+}
+
 function AdminShell({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
   const router = useRouter();
@@ -121,7 +229,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminAlertsProvider adminId={user.id}>
-      <div className="flex min-h-dvh bg-[#f8f9fa]">
+      <AdminLoginToast />
+      <div className="flex min-h-dvh bg-[#f8f9fa] anim-page">
         <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col bg-brand-dark text-white lg:flex">
           <div className="border-b border-white/10 px-5 py-5">
             <div className="flex items-center gap-2.5">
@@ -196,22 +305,18 @@ function AdminShell({ children }: { children: React.ReactNode }) {
             <div className="relative hidden max-w-md flex-1 md:block">
               <input
                 placeholder="Search campaigns, users..."
-                className="w-full rounded-xl border border-border bg-gray-50 py-2.5 pl-4 pr-4 text-sm outline-none focus:border-brand"
+                className="w-full rounded-xl border border-border bg-gray-50 py-2.5 pl-4 pr-4 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/15"
               />
             </div>
             <div className="ml-auto flex items-center gap-3">
               <AdminBell />
-              <div className="flex items-center gap-2">
-                <Avatar src={user.avatar_url} name={user.full_name} size={36} />
-                <div className="hidden sm:block">
-                  <p className="text-sm font-semibold leading-tight">{user.full_name}</p>
-                  <p className="text-[11px] text-muted">Administrator</p>
-                </div>
-              </div>
+              <AdminProfileMenu />
             </div>
           </header>
 
-          <main className="flex-1 p-4 lg:p-8">{children}</main>
+          <main className="flex-1 p-4 lg:p-8">
+            <PageMotion key={pathname}>{children}</PageMotion>
+          </main>
         </div>
       </div>
     </AdminAlertsProvider>

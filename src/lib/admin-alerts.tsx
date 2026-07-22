@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { useToast } from "@/components/Toast";
+import { NOTIFICATIONS } from "@/lib/demo-data";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { formatCurrencyExact } from "@/lib/utils";
 import type { Notification } from "@/lib/types";
@@ -27,6 +28,7 @@ function rememberAlert(id: string) {
 type AdminAlertsValue = {
   notifications: Notification[];
   unreadCount: number;
+  ready: boolean;
   markAllRead: () => Promise<void>;
   markRead: (id: string) => Promise<void>;
 };
@@ -69,17 +71,27 @@ export function AdminAlertsProvider({
   children: ReactNode;
 }) {
   const { pushToast } = useToast();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>(() =>
+    isSupabaseConfigured() ? [] : NOTIFICATIONS
+  );
+  const [ready, setReady] = useState(() => !isSupabaseConfigured());
 
   const load = useCallback(async () => {
-    if (!isSupabaseConfigured()) return;
-    const { data } = await getSupabase()!
-      .from("wecare_notifications")
-      .select("*")
-      .or(`user_id.eq.${adminId},user_id.is.null`)
-      .order("created_at", { ascending: false })
-      .limit(40);
-    if (data) setNotifications(data.map(mapNotification));
+    if (!isSupabaseConfigured()) {
+      setReady(true);
+      return;
+    }
+    try {
+      const { data } = await getSupabase()!
+        .from("wecare_notifications")
+        .select("*")
+        .or(`user_id.eq.${adminId},user_id.is.null`)
+        .order("created_at", { ascending: false })
+        .limit(40);
+      if (data) setNotifications(data.map(mapNotification));
+    } finally {
+      setReady(true);
+    }
   }, [adminId]);
 
   useEffect(() => {
@@ -229,8 +241,8 @@ export function AdminAlertsProvider({
   }, [adminId]);
 
   const value = useMemo(
-    () => ({ notifications, unreadCount, markAllRead, markRead }),
-    [notifications, unreadCount, markAllRead, markRead]
+    () => ({ notifications, unreadCount, ready, markAllRead, markRead }),
+    [notifications, unreadCount, ready, markAllRead, markRead]
   );
 
   return (

@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, Shield, ShieldCheck } from "lucide-react";
 import { Button, Field } from "@/components/ui";
 import { BrandLogo } from "@/components/BrandLogo";
+import { FadeUp, ScaleIn } from "@/components/Motion";
 import { useAuth } from "@/lib/auth";
+import { markLoginToastPending } from "@/lib/login-toast";
+import { SITE_URL } from "@/lib/site";
 import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
 
 export default function AdminLoginPage() {
@@ -28,7 +30,10 @@ export default function AdminLoginPage() {
     const err = await login(email, password, "admin");
     setLoading(false);
     if (err) setError(err);
-    else router.push("/admin");
+    else {
+      markLoginToastPending();
+      router.push("/admin");
+    }
   }
 
   if (authLoading || blocked) {
@@ -40,7 +45,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="grid min-h-dvh lg:grid-cols-2">
+    <div className="grid min-h-dvh lg:grid-cols-2 anim-page">
       {/* Left — Admin_dashboard/login.png layout with login_ad artwork */}
       <div className="relative hidden flex-col overflow-hidden bg-gradient-to-b from-[#071a16] via-[#0b2d26] to-[#0f3d32] lg:flex">
         <div className="pointer-events-none absolute inset-0 opacity-30">
@@ -49,19 +54,25 @@ export default function AdminLoginPage() {
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col items-center px-10 pb-8 pt-12 text-center text-white">
-          <BrandLogo size={72} className="shadow-xl shadow-black/40" />
-          <p className="mt-3 text-2xl font-extrabold tracking-tight text-brand-accent">
-            Wecare
-          </p>
+          <ScaleIn>
+            <BrandLogo size={72} className="shadow-xl shadow-black/40" />
+          </ScaleIn>
+          <FadeUp delay={80}>
+            <p className="mt-3 text-2xl font-extrabold tracking-tight text-brand-accent">
+              Wecare
+            </p>
+          </FadeUp>
 
-          <h1 className="mt-10 text-4xl font-extrabold leading-tight xl:text-5xl">
-            Welcome <span className="text-brand-accent">Back!</span>
-          </h1>
-          <p className="mt-3 max-w-md text-sm text-white/70 xl:text-base">
-            Sign in to your admin account to continue managing Wecare.
-          </p>
+          <FadeUp delay={140}>
+            <h1 className="mt-10 text-4xl font-extrabold leading-tight xl:text-5xl">
+              Welcome <span className="text-brand-accent">Back!</span>
+            </h1>
+            <p className="mt-3 max-w-md text-sm text-white/70 xl:text-base">
+              Sign in to your admin account to continue managing Wecare.
+            </p>
+          </FadeUp>
 
-          <div className="relative mt-8 w-full max-w-lg flex-1">
+          <FadeUp delay={220} className="relative mt-8 w-full max-w-lg flex-1">
             <div className="relative mx-auto h-full min-h-[280px] w-full overflow-hidden">
               <Image
                 src="/images/admin-login-people.png"
@@ -72,9 +83,9 @@ export default function AdminLoginPage() {
                 priority
               />
             </div>
-          </div>
+          </FadeUp>
 
-          <div className="mt-6 w-full max-w-lg rounded-2xl border border-white/10 bg-black/30 px-4 py-3 backdrop-blur-sm">
+          <FadeUp delay={300} className="mt-6 w-full max-w-lg rounded-2xl border border-white/10 bg-black/30 px-4 py-3 backdrop-blur-sm">
             <p className="flex items-center justify-center gap-2 text-sm text-white/85">
               <ShieldCheck className="h-4 w-4 shrink-0 text-brand-accent" />
               <span>
@@ -82,13 +93,13 @@ export default function AdminLoginPage() {
                 Together, we build a better tomorrow.
               </span>
             </p>
-          </div>
+          </FadeUp>
         </div>
       </div>
 
       {/* Right form */}
       <div className="flex items-center justify-center bg-white px-6 py-12">
-        <div className="w-full max-w-md">
+        <FadeUp delay={100} className="w-full max-w-md">
           <div className="mb-8 flex flex-col items-center lg:hidden">
             <BrandLogo size={56} />
             <p className="mt-2 text-lg font-extrabold text-brand">Wecare</p>
@@ -144,7 +155,7 @@ export default function AdminLoginPage() {
               </button>
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full anim-press" disabled={loading}>
               <Lock className="h-4 w-4" />
               {loading ? "Signing in..." : "Sign In"}
             </Button>
@@ -156,7 +167,7 @@ export default function AdminLoginPage() {
             <div className="h-px flex-1 bg-border" />
           </div>
 
-          <Button variant="outline" className="w-full" type="button">
+          <Button variant="outline" className="w-full anim-press" type="button">
             <Shield className="h-4 w-4 text-brand" />
             Login with Security Key
           </Button>
@@ -165,15 +176,15 @@ export default function AdminLoginPage() {
             © 2025 <span className="font-semibold text-brand">Wecare</span>. All rights
             reserved.
           </p>
-          <p className="mt-3 text-center">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline"
+          <p className="mt-4 text-center">
+            <a
+              href={SITE_URL}
+              className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 bg-brand-light px-4 py-2 text-sm font-semibold text-brand hover:bg-brand/10 anim-press"
             >
               ← Go to first page
-            </Link>
+            </a>
           </p>
-        </div>
+        </FadeUp>
       </div>
     </div>
   );

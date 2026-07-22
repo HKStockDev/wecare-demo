@@ -65,18 +65,18 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="anim-fade-up">
         <h1 className="text-2xl font-extrabold lg:text-3xl">Admin Dashboard</h1>
         <p className="mt-1 text-sm text-muted">
           Welcome back! Here&apos;s what&apos;s happening with your fundraising and community today.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="anim-stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((s) => (
           <div
             key={s.label}
-            className="rounded-2xl border border-border bg-white p-5 shadow-sm"
+            className="rounded-2xl border border-border bg-white p-5 shadow-sm anim-hover-lift"
           >
             <div className="flex items-start justify-between">
               <div>

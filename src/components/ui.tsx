@@ -12,7 +12,7 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50",
+        "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 anim-press",
         variant === "primary" &&
           "bg-brand text-white shadow-sm shadow-brand/25 hover:bg-[#177a35]",
         variant === "outline" &&

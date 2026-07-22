@@ -237,13 +237,18 @@ export function useActivities() {
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>(NOTIFICATIONS);
+  const [ready, setReady] = useState(() => !isSupabaseConfigured());
   useEffect(() => {
-    if (!isSupabaseConfigured()) return;
-    void getSupabase()!
-      .from("wecare_notifications")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .then(({ data }) => {
+    if (!isSupabaseConfigured()) {
+      setReady(true);
+      return;
+    }
+    void (async () => {
+      try {
+        const { data } = await getSupabase()!
+          .from("wecare_notifications")
+          .select("*")
+          .order("created_at", { ascending: false });
         if (data?.length) {
           setNotifications(
             data.map((n) => ({
@@ -255,7 +260,10 @@ export function useNotifications() {
             }))
           );
         }
-      });
+      } finally {
+        setReady(true);
+      }
+    })();
   }, []);
-  return { notifications };
+  return { notifications, ready };
 }

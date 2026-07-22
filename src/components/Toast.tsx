@@ -17,11 +17,14 @@ export type ToastItem = {
   title: string;
   body?: string;
   kind?: ToastKind;
+  durationMs?: number;
 };
+
+type ToastInput = Omit<ToastItem, "id"> & { id?: string; durationMs?: number };
 
 type ToastContextValue = {
   toasts: ToastItem[];
-  pushToast: (toast: Omit<ToastItem, "id"> & { id?: string }) => void;
+  pushToast: (toast: ToastInput) => void;
   dismissToast: (id: string) => void;
 };
 
@@ -35,10 +38,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const pushToast = useCallback(
-    (toast: Omit<ToastItem, "id"> & { id?: string }) => {
+    (toast: ToastInput) => {
       const id = toast.id || `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+      const durationMs = toast.durationMs ?? 5500;
       setToasts((prev) => [...prev.slice(-4), { ...toast, id }]);
-      window.setTimeout(() => dismissToast(id), 5500);
+      window.setTimeout(() => dismissToast(id), durationMs);
     },
     [dismissToast]
   );

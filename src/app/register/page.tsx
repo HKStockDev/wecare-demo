@@ -87,12 +87,12 @@ export default function RegisterPage() {
           </Link>
         </p>
         <p className="mt-4 text-center">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline"
+          <a
+            href="https://wecare-demo.vercel.app/"
+            className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 bg-brand-light px-4 py-2 text-sm font-semibold text-brand hover:bg-brand/10"
           >
             ← Go to first page
-          </Link>
+          </a>
         </p>
       </div>
     </div>

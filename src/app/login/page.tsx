@@ -7,10 +7,13 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { BrandLogo } from "@/components/BrandLogo";
+import { FadeUp, ScaleIn } from "@/components/Motion";
 import { SafeImage } from "@/components/SafeImage";
 import { Button, Field } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { DONOR_AVATARS } from "@/lib/demo-data";
+import { markLoginToastPending } from "@/lib/login-toast";
+import { SITE_URL } from "@/lib/site";
 import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
 
 export default function LoginPage() {
@@ -30,7 +33,10 @@ export default function LoginPage() {
     const err = await login(email, password, "user");
     setLoading(false);
     if (err) setError(err);
-    else router.push("/app");
+    else {
+      markLoginToastPending();
+      router.push("/app");
+    }
   }
 
   if (authLoading || blocked) {
@@ -42,24 +48,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="h-dvh overflow-hidden bg-[#f7faf8]">
+    <div className="h-dvh overflow-hidden bg-[#f7faf8] anim-page">
       <div className="phone-shell">
         <div className="phone-shell-scroll">
         <div className="relative overflow-hidden px-6 pb-4 pt-10 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#d9f2e3,_transparent_55%)]" />
           <div className="relative">
-            <div className="mx-auto mb-3">
+            <ScaleIn className="mx-auto mb-3">
               <BrandLogo size={56} />
-            </div>
-            <h1 className="text-2xl font-extrabold text-brand">Wecare</h1>
-            <p className="mt-3 text-xl font-bold text-foreground">
-              Together, we can{" "}
-              <span className="block text-2xl text-brand">Change Lives</span>
-            </p>
-            <p className="mt-2 text-sm text-muted">
-              Join our community and support amazing causes.
-            </p>
-            <div className="relative mx-auto mt-5 h-28 w-full max-w-xs overflow-hidden rounded-2xl">
+            </ScaleIn>
+            <FadeUp delay={80}>
+              <h1 className="text-2xl font-extrabold text-brand">Wecare</h1>
+            </FadeUp>
+            <FadeUp delay={140}>
+              <p className="mt-3 text-xl font-bold text-foreground">
+                Together, we can{" "}
+                <span className="block text-2xl text-brand">Change Lives</span>
+              </p>
+              <p className="mt-2 text-sm text-muted">
+                Join our community and support amazing causes.
+              </p>
+            </FadeUp>
+            <FadeUp delay={200} className="relative mx-auto mt-5 h-28 w-full max-w-xs overflow-hidden rounded-2xl">
               <SafeImage
                 src="/images/login-hero.jpg"
                 alt="Community"
@@ -77,11 +87,11 @@ export default function LoginPage() {
                   />
                 ))}
               </div>
-            </div>
+            </FadeUp>
           </div>
         </div>
 
-        <div className="relative z-10 mx-4 -mt-1 rounded-2xl border border-border bg-white p-5 shadow-lg shadow-brand-dark/5">
+        <FadeUp delay={260} className="relative z-10 mx-4 -mt-1 rounded-2xl border border-border bg-white p-5 shadow-lg shadow-brand-dark/5">
           <h2 className="text-xl font-bold">Welcome Back!</h2>
           <p className="mt-1 text-sm text-muted">Sign in to your account and continue</p>
 
@@ -113,7 +123,7 @@ export default function LoginPage() {
               </button>
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full anim-press" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
@@ -133,7 +143,7 @@ export default function LoginPage() {
               <button
                 key={p.name}
                 type="button"
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-foreground hover:bg-gray-50"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-foreground hover:bg-gray-50 anim-press"
               >
                 <Image src={p.icon} alt="" width={18} height={18} unoptimized />
                 {p.name}
@@ -147,20 +157,20 @@ export default function LoginPage() {
               Sign Up
             </Link>
           </p>
-        </div>
+        </FadeUp>
 
-        <div className="wave-footer mt-auto flex flex-col items-center gap-2 px-6 pb-8 pt-8">
+        <FadeUp delay={320} className="wave-footer mt-auto flex flex-col items-center gap-2 px-6 pb-8 pt-8">
           <div className="flex items-center gap-2 text-xs text-brand">
             <ShieldCheck className="h-4 w-4" />
             Your data is safe and secure with us.
           </div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:underline"
+          <a
+            href={SITE_URL}
+            className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 bg-white/80 px-4 py-2 text-xs font-semibold text-brand shadow-sm hover:bg-white anim-press"
           >
             ← Go to first page
-          </Link>
-        </div>
+          </a>
+        </FadeUp>
         </div>
       </div>
     </div>
