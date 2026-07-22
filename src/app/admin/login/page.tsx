@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Eye, EyeOff, Lock, Mail, Shield, ShieldCheck } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, Shield } from "lucide-react";
 import { Button, Field } from "@/components/ui";
 import { BrandLogo } from "@/components/BrandLogo";
-import { FadeUp, ScaleIn } from "@/components/Motion";
+import { FadeUp } from "@/components/Motion";
 import { useAuth } from "@/lib/auth";
 import { markLoginToastPending } from "@/lib/login-toast";
 import { SITE_URL } from "@/lib/site";
@@ -46,55 +46,16 @@ export default function AdminLoginPage() {
 
   return (
     <div className="grid min-h-dvh lg:grid-cols-2 anim-page">
-      {/* Left — Admin_dashboard/login.png layout with login_ad artwork */}
-      <div className="relative hidden flex-col overflow-hidden bg-gradient-to-b from-[#071a16] via-[#0b2d26] to-[#0f3d32] lg:flex">
-        <div className="pointer-events-none absolute inset-0 opacity-30">
-          <div className="absolute -left-20 top-24 h-72 w-72 rounded-full bg-brand-accent/20 blur-3xl" />
-          <div className="absolute -right-16 bottom-40 h-64 w-64 rounded-full bg-brand/30 blur-3xl" />
-        </div>
-
-        <div className="relative z-10 flex flex-1 flex-col items-center px-10 pb-8 pt-12 text-center text-white">
-          <ScaleIn>
-            <BrandLogo size={72} className="shadow-xl shadow-black/40" />
-          </ScaleIn>
-          <FadeUp delay={80}>
-            <p className="mt-3 text-2xl font-extrabold tracking-tight text-brand-accent">
-              Wecare
-            </p>
-          </FadeUp>
-
-          <FadeUp delay={140}>
-            <h1 className="mt-10 text-4xl font-extrabold leading-tight xl:text-5xl">
-              Welcome <span className="text-brand-accent">Back!</span>
-            </h1>
-            <p className="mt-3 max-w-md text-sm text-white/70 xl:text-base">
-              Sign in to your admin account to continue managing Wecare.
-            </p>
-          </FadeUp>
-
-          <FadeUp delay={220} className="relative mt-8 w-full max-w-lg flex-1">
-            <div className="relative mx-auto h-full min-h-[280px] w-full overflow-hidden">
-              <Image
-                src="/images/admin-login-people.png"
-                alt="Wecare community"
-                fill
-                className="object-contain object-bottom"
-                unoptimized
-                priority
-              />
-            </div>
-          </FadeUp>
-
-          <FadeUp delay={300} className="mt-6 w-full max-w-lg rounded-2xl border border-white/10 bg-black/30 px-4 py-3 backdrop-blur-sm">
-            <p className="flex items-center justify-center gap-2 text-sm text-white/85">
-              <ShieldCheck className="h-4 w-4 shrink-0 text-brand-accent" />
-              <span>
-                <span className="font-semibold text-white">Secure. Reliable. Impactful.</span>{" "}
-                Together, we build a better tomorrow.
-              </span>
-            </p>
-          </FadeUp>
-        </div>
+      {/* Left — full login_ad.png artwork as-is */}
+      <div className="relative hidden min-h-dvh overflow-hidden bg-[#0b2d26] lg:block">
+        <Image
+          src="/images/login_ad.png"
+          alt="Wecare admin"
+          fill
+          className="object-cover object-center"
+          priority
+          unoptimized
+        />
       </div>
 
       {/* Right form */}

@@ -2,8 +2,8 @@
 
 import { Bell, MessageCircle } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
-import { NOTIFICATIONS } from "@/lib/demo-data";
-import { timeAgo } from "@/lib/utils";
+import { useUserNotifications } from "@/lib/user-notifications";
+import { cn, timeAgo } from "@/lib/utils";
 
 const messages = [
   {
@@ -30,21 +30,48 @@ const messages = [
 ];
 
 export default function MessagesPage() {
+  const { notifications, markRead, markAllRead, unreadCount } =
+    useUserNotifications();
+
   return (
     <div className="min-h-full bg-white">
-      <header className="border-b border-border px-4 py-4">
+      <header className="flex items-center justify-between border-b border-border px-4 py-4">
         <h1 className="text-xl font-extrabold">Messages</h1>
+        {unreadCount > 0 && (
+          <button
+            type="button"
+            onClick={() => void markAllRead()}
+            className="text-xs font-semibold text-brand"
+          >
+            Mark all read
+          </button>
+        )}
       </header>
 
       <section className="border-b border-border px-4 py-4">
         <h2 className="mb-3 flex items-center gap-2 text-sm font-bold text-muted">
           <Bell className="h-4 w-4" /> Notifications
+          {unreadCount > 0 && (
+            <span className="rounded-full bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+              {unreadCount}
+            </span>
+          )}
         </h2>
         <div className="space-y-2">
-          {NOTIFICATIONS.map((n) => (
-            <div
+          {notifications.length === 0 && (
+            <p className="py-6 text-center text-sm text-muted">
+              No notifications yet
+            </p>
+          )}
+          {notifications.map((n) => (
+            <button
               key={n.id}
-              className="rounded-xl border border-border bg-brand-light/40 px-3 py-3"
+              type="button"
+              onClick={() => void markRead(n.id)}
+              className={cn(
+                "w-full rounded-xl border border-border px-3 py-3 text-left transition",
+                !n.read ? "bg-brand-light/40" : "bg-white"
+              )}
             >
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-semibold">{n.title}</p>
@@ -54,7 +81,7 @@ export default function MessagesPage() {
               </div>
               <p className="mt-0.5 text-xs text-muted">{n.body}</p>
               <p className="mt-1 text-[11px] text-muted">{timeAgo(n.created_at)}</p>
-            </div>
+            </button>
           ))}
         </div>
       </section>

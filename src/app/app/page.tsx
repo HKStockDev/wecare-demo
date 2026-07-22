@@ -24,7 +24,8 @@ import { Button, ProgressBar } from "@/components/ui";
 import { useAppMenu } from "@/lib/app-menu";
 import { useAuth } from "@/lib/auth";
 import { CATEGORIES, DONOR_AVATARS } from "@/lib/demo-data";
-import { useCampaigns, useEvents, useNotifications } from "@/lib/data";
+import { useCampaigns, useEvents } from "@/lib/data";
+import { useUserNotifications } from "@/lib/user-notifications";
 import { formatCurrency, formatEventDate, percentRaised } from "@/lib/utils";
 import { avatarForName } from "@/lib/avatars";
 
@@ -43,7 +44,7 @@ export default function HomePage() {
   const [query, setQuery] = useState("");
   const { campaigns: allCampaigns } = useCampaigns();
   const { events } = useEvents();
-  const { notifications } = useNotifications();
+  const { unreadCount: unread } = useUserNotifications();
 
   const campaigns = useMemo(() => {
     const list = allCampaigns;
@@ -56,7 +57,6 @@ export default function HomePage() {
   }, [query, allCampaigns]);
 
   const firstName = user?.full_name?.split(" ")[0] || "Friend";
-  const unread = notifications.filter((n) => !n.read).length;
 
   return (
     <div className="bg-white">

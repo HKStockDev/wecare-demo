@@ -15,7 +15,10 @@ import { LoginNotificationToast } from "@/components/LoginNotificationToast";
 import { PageMotion } from "@/components/Motion";
 import { AppMenuContext } from "@/lib/app-menu";
 import { useAuth } from "@/lib/auth";
-import { useNotifications } from "@/lib/data";
+import {
+  UserNotificationsProvider,
+  useUserNotifications,
+} from "@/lib/user-notifications";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -27,35 +30,17 @@ const tabs = [
 ];
 
 function UserLoginToast() {
-  const { notifications, ready } = useNotifications();
+  const { notifications, ready } = useUserNotifications();
   return <LoginNotificationToast notifications={notifications} ready={ready} />;
 }
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (!loading && !user) router.replace("/login");
-    // Admins never land on user app — send to admin home, never to "/"
-    if (!loading && user?.role === "admin") router.replace("/admin");
-  }, [user, loading, router]);
-
   const menuApi = useMemo(
     () => ({ openMenu: () => setMenuOpen(true) }),
     []
   );
-
-  if (loading || !user || user.role === "admin") {
-    return (
-      <div className="flex h-dvh items-center justify-center bg-[#f7faf8]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
-      </div>
-    );
-  }
-
   const hideNav = pathname.includes("/donate") || pathname.includes("/profile/complete");
 
   return (
@@ -107,5 +92,29 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </AppMenuContext.Provider>
+  );
+}
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) router.replace("/login");
+    if (!loading && user?.role === "admin") router.replace("/admin");
+  }, [user, loading, router]);
+
+  if (loading || !user || user.role === "admin") {
+    return (
+      <div className="flex h-dvh items-center justify-center bg-[#f7faf8]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
+      </div>
+    );
+  }
+
+  return (
+    <UserNotificationsProvider userId={user.id}>
+      <AppShell>{children}</AppShell>
+    </UserNotificationsProvider>
   );
 }

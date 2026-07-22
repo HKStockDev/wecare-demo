@@ -72,11 +72,17 @@ async function connectPg() {
 async function runSchema() {
   const schema = readFileSync(join(root, "supabase", "schema.sql"), "utf8");
   const rpc = readFileSync(join(root, "supabase", "donation_rpc.sql"), "utf8");
+  const pushRpc = readFileSync(
+    join(root, "supabase", "push_notification_rpc.sql"),
+    "utf8"
+  );
   const client = await connectPg();
   console.log("Applying schema.sql...");
   await client.query(schema);
   console.log("Applying donation_rpc.sql...");
   await client.query(rpc);
+  console.log("Applying push_notification_rpc.sql...");
+  await client.query(pushRpc);
   await client.end();
   console.log("Schema applied.");
 }
