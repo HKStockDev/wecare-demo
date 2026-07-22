@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Eye, EyeOff, KeyRound, Lock, Mail, Shield } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, Shield, ShieldCheck } from "lucide-react";
 import { Button, Field } from "@/components/ui";
-import { Avatar } from "@/components/Avatar";
 import { BrandLogo } from "@/components/BrandLogo";
 import { useAuth } from "@/lib/auth";
 import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
@@ -41,51 +41,60 @@ export default function AdminLoginPage() {
 
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
-      <div className="relative hidden flex-col justify-between bg-gradient-to-b from-[#071a16] via-[#0b2d26] to-[#0f3d32] p-10 text-white lg:flex">
-        <div className="flex items-center gap-3">
-          <BrandLogo size={40} />
-          <span className="text-xl font-extrabold text-brand-accent">Wecare</span>
+      {/* Left — Admin_dashboard/login.png layout with login_ad artwork */}
+      <div className="relative hidden flex-col overflow-hidden bg-gradient-to-b from-[#071a16] via-[#0b2d26] to-[#0f3d32] lg:flex">
+        <div className="pointer-events-none absolute inset-0 opacity-30">
+          <div className="absolute -left-20 top-24 h-72 w-72 rounded-full bg-brand-accent/20 blur-3xl" />
+          <div className="absolute -right-16 bottom-40 h-64 w-64 rounded-full bg-brand/30 blur-3xl" />
         </div>
 
-        <div>
-          <h1 className="text-4xl font-extrabold leading-tight">
+        <div className="relative z-10 flex flex-1 flex-col items-center px-10 pb-8 pt-12 text-center text-white">
+          <BrandLogo size={72} className="shadow-xl shadow-black/40" />
+          <p className="mt-3 text-2xl font-extrabold tracking-tight text-brand-accent">
+            Wecare
+          </p>
+
+          <h1 className="mt-10 text-4xl font-extrabold leading-tight xl:text-5xl">
             Welcome <span className="text-brand-accent">Back!</span>
           </h1>
-          <p className="mt-3 max-w-sm text-white/65">
+          <p className="mt-3 max-w-md text-sm text-white/70 xl:text-base">
             Sign in to your admin account to continue managing Wecare.
           </p>
-          <div className="mt-10 flex -space-x-3">
-            {[
-              "/images/avatars/admin.jpg",
-              "/images/avatars/sarah.jpg",
-              "/images/avatars/john.jpg",
-              "/images/avatars/michael.jpg",
-            ].map((src) => (
-              <Avatar
-                key={src}
-                src={src}
-                size={64}
-                className="border-4 border-[#0b2d26]"
+
+          <div className="relative mt-8 w-full max-w-lg flex-1">
+            <div className="relative mx-auto h-full min-h-[280px] w-full overflow-hidden">
+              <Image
+                src="/images/admin-login-people.png"
+                alt="Wecare community"
+                fill
+                className="object-contain object-bottom"
+                unoptimized
+                priority
               />
-            ))}
-          </div>
-        </div>
-
-        <p className="flex items-center gap-2 text-sm text-white/60">
-          <Shield className="h-4 w-4 text-brand-accent" />
-          Secure. Reliable. Impactful. Together, we build a better tomorrow.
-        </p>
-      </div>
-
-      <div className="flex items-center justify-center bg-white px-6 py-12">
-        <div className="w-full max-w-md">
-          <div className="mb-8 lg:hidden">
-            <div className="flex items-center gap-2">
-              <BrandLogo size={36} />
-              <span className="text-lg font-extrabold text-brand">Wecare</span>
             </div>
           </div>
-          <h2 className="text-3xl font-extrabold">Admin Portal</h2>
+
+          <div className="mt-6 w-full max-w-lg rounded-2xl border border-white/10 bg-black/30 px-4 py-3 backdrop-blur-sm">
+            <p className="flex items-center justify-center gap-2 text-sm text-white/85">
+              <ShieldCheck className="h-4 w-4 shrink-0 text-brand-accent" />
+              <span>
+                <span className="font-semibold text-white">Secure. Reliable. Impactful.</span>{" "}
+                Together, we build a better tomorrow.
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Right form */}
+      <div className="flex items-center justify-center bg-white px-6 py-12">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex flex-col items-center lg:hidden">
+            <BrandLogo size={56} />
+            <p className="mt-2 text-lg font-extrabold text-brand">Wecare</p>
+          </div>
+
+          <h2 className="text-3xl font-extrabold text-foreground">Admin Portal</h2>
           <p className="mt-1 text-muted">Sign in to access your dashboard</p>
 
           <form onSubmit={onSubmit} className="mt-8 space-y-4">
@@ -110,6 +119,7 @@ export default function AdminLoginPage() {
                 type={show ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
                 icon={<Lock className="h-4 w-4" />}
                 right={
                   <button type="button" onClick={() => setShow((s) => !s)}>
@@ -127,10 +137,10 @@ export default function AdminLoginPage() {
                   onChange={(e) => setRemember(e.target.checked)}
                   className="accent-brand"
                 />
-                Remember Me
+                Remember me
               </label>
               <button type="button" className="font-medium text-brand">
-                Forgot Password?
+                Forgot password?
               </button>
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
@@ -147,7 +157,7 @@ export default function AdminLoginPage() {
           </div>
 
           <Button variant="outline" className="w-full" type="button">
-            <KeyRound className="h-4 w-4" />
+            <Shield className="h-4 w-4 text-brand" />
             Login with Security Key
           </Button>
 
