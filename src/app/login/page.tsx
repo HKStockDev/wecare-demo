@@ -10,9 +10,11 @@ import { SafeImage } from "@/components/SafeImage";
 import { Button, Field } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { DONOR_AVATARS } from "@/lib/demo-data";
+import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
 
 export default function LoginPage() {
   const { login } = useAuth();
+  const { loading: authLoading, blocked } = useRedirectIfAuthenticated();
   const router = useRouter();
   const [email, setEmail] = useState("john@wecare.app");
   const [password, setPassword] = useState("demo123");
@@ -28,6 +30,14 @@ export default function LoginPage() {
     setLoading(false);
     if (err) setError(err);
     else router.push("/app");
+  }
+
+  if (authLoading || blocked) {
+    return (
+      <div className="flex h-dvh items-center justify-center bg-[#f7faf8]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
+      </div>
+    );
   }
 
   return (

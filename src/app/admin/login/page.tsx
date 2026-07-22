@@ -7,9 +7,11 @@ import { useState } from "react";
 import { Eye, EyeOff, KeyRound, Lock, Mail, Shield } from "lucide-react";
 import { Button, Field } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
+import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
 
 export default function AdminLoginPage() {
   const { login } = useAuth();
+  const { loading: authLoading, blocked } = useRedirectIfAuthenticated();
   const router = useRouter();
   const [email, setEmail] = useState("admin@wecare.app");
   const [password, setPassword] = useState("admin123");
@@ -26,6 +28,14 @@ export default function AdminLoginPage() {
     setLoading(false);
     if (err) setError(err);
     else router.push("/admin");
+  }
+
+  if (authLoading || blocked) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center bg-[#f8f9fa]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
+      </div>
+    );
   }
 
   return (

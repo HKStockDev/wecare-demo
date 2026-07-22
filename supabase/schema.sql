@@ -180,6 +180,11 @@ create policy "wecare notifications select"
   on public.wecare_notifications for select
   using (user_id = auth.uid() or public.wecare_is_admin());
 
+drop policy if exists "wecare notifications update" on public.wecare_notifications;
+create policy "wecare notifications update"
+  on public.wecare_notifications for update
+  using (user_id = auth.uid() or public.wecare_is_admin());
+
 -- Allow anon/authenticated read for demo listing (campaigns/events already public)
 grant usage on schema public to anon, authenticated;
 grant select on public.wecare_campaigns to anon, authenticated;
@@ -189,4 +194,4 @@ grant select on public.wecare_activities to anon, authenticated;
 grant select, insert, update on public.wecare_profiles to authenticated;
 grant insert, update on public.wecare_campaigns to authenticated;
 grant insert on public.wecare_donations to authenticated;
-grant select on public.wecare_notifications to authenticated;
+grant select, update on public.wecare_notifications to authenticated;

@@ -13,6 +13,7 @@ import {
   upsertCampaign as upsertLocalCampaign,
 } from "./demo-data";
 import { getSupabase, isSupabaseConfigured } from "./supabase";
+import { broadcastDonationAlert } from "./donation-alerts";
 import type { Activity, Campaign, Donation, Event, Notification } from "./types";
 
 function mapCampaign(row: Record<string, unknown>): Campaign {
@@ -161,6 +162,13 @@ export function useDonations() {
           ...donation,
         };
         setDonations(addLocalDonation(full));
+        broadcastDonationAlert({
+          id: full.id,
+          donor_name: full.donor_name,
+          amount: full.amount,
+          campaign_title: full.campaign_title,
+          created_at: full.created_at,
+        });
         return full;
       }
       const { data, error } = await getSupabase()!.rpc("wecare_record_donation", {
@@ -169,8 +177,16 @@ export function useDonations() {
         p_amount: donation.amount,
       });
       if (error) throw new Error(error.message);
+      const mapped = mapDonation(data, new Map([[donation.campaign_id, donation.campaign_title]]));
+      broadcastDonationAlert({
+        id: mapped.id,
+        donor_name: mapped.donor_name,
+        amount: mapped.amount,
+        campaign_title: donation.campaign_title,
+        created_at: mapped.created_at,
+      });
       await refresh();
-      return mapDonation(data, new Map([[donation.campaign_id, donation.campaign_title]]));
+      return mapped;
     },
     [refresh]
   );

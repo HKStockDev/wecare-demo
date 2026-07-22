@@ -6,9 +6,11 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { Button, Field } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
+import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
 
 export default function RegisterPage() {
   const { register } = useAuth();
+  const { loading: authLoading, blocked } = useRedirectIfAuthenticated();
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +27,14 @@ export default function RegisterPage() {
     setLoading(false);
     if (err) setError(err);
     else router.push("/app/profile/complete");
+  }
+
+  if (authLoading || blocked) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center bg-[#f7faf8]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
+      </div>
+    );
   }
 
   return (
