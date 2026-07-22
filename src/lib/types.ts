@@ -50,6 +50,7 @@ export interface Activity {
   action: string;
   created_at: string;
   avatar_color: string;
+  avatar_url?: string;
 }
 
 export interface Notification {

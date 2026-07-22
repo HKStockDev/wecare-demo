@@ -31,6 +31,7 @@
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
@@ -38,7 +39,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-plus-jakarta), system-ui, sans-serif;
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
+  min-height: 100dvh;
 }
 
 input,
@@ -60,16 +62,28 @@ select {
 
 .phone-shell {
   max-width: 430px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  height: 100dvh;
   min-height: 100dvh;
   background: #fff;
   position: relative;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 20px 50px rgba(11, 45, 38, 0.08);
+}
+
+.phone-shell-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 768px) {
   .phone-shell {
+    height: calc(100dvh - 32px);
     min-height: calc(100dvh - 32px);
     margin-top: 16px;
     margin-bottom: 16px;

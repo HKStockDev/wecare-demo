@@ -9,7 +9,7 @@ export default function HomePage() {
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
           <div className="relative h-24 w-24 overflow-hidden rounded-full bg-brand-accent shadow-lg shadow-black/30">
             <Image
-              src="/images/logo.png"
+              src="/images/logo-mark.svg"
               alt="Wecare"
               fill
               className="object-cover"

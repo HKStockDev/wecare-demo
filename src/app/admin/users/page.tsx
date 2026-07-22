@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar } from "@/components/Avatar";
 import { DEMO_USERS } from "@/lib/demo-data";
 
 const users = [
@@ -14,6 +15,7 @@ const users = [
     email: "sarah@example.com",
     role: "user" as const,
     location: "Boston, USA",
+    avatar_url: "/images/avatars/sarah.jpg",
     donations: 8,
     joined: "May 2026",
   },
@@ -23,6 +25,7 @@ const users = [
     email: "michael@example.com",
     role: "user" as const,
     location: "Seattle, USA",
+    avatar_url: "/images/avatars/michael.jpg",
     donations: 5,
     joined: "Apr 2026",
   },
@@ -32,6 +35,7 @@ const users = [
     email: "emma@example.com",
     role: "user" as const,
     location: "Austin, USA",
+    avatar_url: "/images/avatars/emma.jpg",
     donations: 12,
     joined: "Mar 2026",
   },
@@ -66,9 +70,11 @@ export default function AdminUsersPage() {
               <tr key={u.id} className="border-b border-border last:border-0">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
-                      {u.full_name[0]}
-                    </div>
+                    <Avatar
+                      src={"avatar_url" in u ? u.avatar_url : undefined}
+                      name={u.full_name}
+                      size={36}
+                    />
                     <div>
                       <p className="font-semibold">{u.full_name}</p>
                       <p className="text-xs text-muted">{u.email}</p>
@@ -79,15 +85,15 @@ export default function AdminUsersPage() {
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
                       u.role === "admin"
-                        ? "bg-amber-50 text-amber-700"
-                        : "bg-brand-light text-brand"
+                        ? "bg-brand-light text-brand"
+                        : "bg-gray-100 text-muted"
                     }`}
                   >
                     {u.role}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-muted">{u.location || "—"}</td>
-                <td className="px-4 py-3">{u.donations}</td>
+                <td className="px-4 py-3 text-muted">{u.location}</td>
+                <td className="px-4 py-3 font-semibold">{u.donations}</td>
                 <td className="px-4 py-3 text-muted">{u.joined}</td>
               </tr>
             ))}

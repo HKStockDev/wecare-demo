@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import {
@@ -12,6 +11,7 @@ import {
   Shield,
   ShieldCheck,
 } from "lucide-react";
+import { SafeImage } from "@/components/SafeImage";
 import { Button, Field, Input, Label } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { useCampaigns, useDonations } from "@/lib/data";
@@ -113,12 +113,11 @@ function DonateContent() {
           <h2 className="font-bold">Donation Summary</h2>
           <div className="mt-3 flex gap-3">
             <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
-              <Image
+              <SafeImage
                 src={campaign.image_url}
-                alt=""
+                alt={campaign.title}
                 fill
                 className="object-cover"
-                unoptimized
               />
             </div>
             <div className="min-w-0 flex-1">

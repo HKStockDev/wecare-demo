@@ -10,7 +10,7 @@ export const DEMO_USERS = {
     location: "New York, USA",
     bio: "I'm passionate about making a positive impact in my community and supporting meaningful causes.",
     date_of_birth: "1990-05-15",
-    avatar_url: "",
+    avatar_url: "/images/avatars/john.jpg",
     role: "user" as const,
   },
   admin: {
@@ -21,10 +21,16 @@ export const DEMO_USERS = {
     phone: "+1 (555) 000-0000",
     location: "San Francisco, USA",
     bio: "Platform administrator",
-    avatar_url: "",
+    avatar_url: "/images/avatars/admin.jpg",
     role: "admin" as const,
   },
 };
+
+export const DONOR_AVATARS = [
+  "/images/avatars/sarah.jpg",
+  "/images/avatars/michael.jpg",
+  "/images/avatars/emma.jpg",
+];
 
 export const CATEGORIES = [
   { id: "education", name: "Education", icon: "GraduationCap" },
@@ -42,8 +48,7 @@ export const CAMPAIGNS: Campaign[] = [
     description:
       "Help us provide quality education to underprivileged children. Your donation funds school supplies, uniforms, and scholarships.",
     category: "Education",
-    image_url:
-      "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=800&q=80",
+    image_url: "/images/campaigns/education.jpg",
     goal_amount: 20000,
     raised_amount: 12580,
     donors_count: 245,
@@ -56,8 +61,7 @@ export const CAMPAIGNS: Campaign[] = [
     description:
       "Join our reforestation mission. We plant trees, restore habitats, and educate communities about climate action.",
     category: "Environment",
-    image_url:
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80",
+    image_url: "/images/campaigns/environment.jpg",
     goal_amount: 35000,
     raised_amount: 22140,
     donors_count: 412,
@@ -70,8 +74,7 @@ export const CAMPAIGNS: Campaign[] = [
     description:
       "Support abandoned pets with food, medical care, and loving homes until they find their forever families.",
     category: "Animals",
-    image_url:
-      "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&q=80",
+    image_url: "/images/campaigns/animals.jpg",
     goal_amount: 15000,
     raised_amount: 9870,
     donors_count: 189,
@@ -84,8 +87,7 @@ export const CAMPAIGNS: Campaign[] = [
     description:
       "Build clean water wells in rural communities so children can drink safely and stay in school.",
     category: "Health",
-    image_url:
-      "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?w=800&q=80",
+    image_url: "/images/campaigns/water.jpg",
     goal_amount: 50000,
     raised_amount: 38200,
     donors_count: 620,
@@ -98,8 +100,7 @@ export const CAMPAIGNS: Campaign[] = [
     description:
       "Urban gardens and green spaces for underserved neighborhoods — grow food, community, and hope.",
     category: "Community",
-    image_url:
-      "https://images.unsplash.com/photo-1466692476866-aef1dfb1e735?w=800&q=80",
+    image_url: "/images/campaigns/community.jpg",
     goal_amount: 25000,
     raised_amount: 18750,
     donors_count: 301,
@@ -112,8 +113,7 @@ export const CAMPAIGNS: Campaign[] = [
     description:
       "Mobile clinics bringing free checkups, vaccines, and medicine to remote villages.",
     category: "Health",
-    image_url:
-      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
+    image_url: "/images/campaigns/health.jpg",
     goal_amount: 40000,
     raised_amount: 15600,
     donors_count: 178,
@@ -129,8 +129,7 @@ export const EVENTS: Event[] = [
     location: "Central Park, New York",
     date: "2026-07-15",
     time: "9:00 AM",
-    image_url:
-      "https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=400&q=80",
+    image_url: "/images/campaigns/event-cleanup.jpg",
   },
   {
     id: "e2",
@@ -138,8 +137,7 @@ export const EVENTS: Event[] = [
     location: "Brooklyn Bridge Park",
     date: "2026-07-28",
     time: "7:30 AM",
-    image_url:
-      "https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?w=400&q=80",
+    image_url: "/images/campaigns/event-run.jpg",
   },
   {
     id: "e3",
@@ -147,8 +145,7 @@ export const EVENTS: Event[] = [
     location: "Downtown Community Center",
     date: "2026-08-05",
     time: "10:00 AM",
-    image_url:
-      "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&q=80",
+    image_url: "/images/campaigns/event-food.jpg",
   },
 ];
 
@@ -216,6 +213,7 @@ export const ACTIVITIES: Activity[] = [
     action: "shared an update on Education for All",
     created_at: new Date(Date.now() - 1 * 3600000).toISOString(),
     avatar_color: "#28C76F",
+    avatar_url: "/images/avatars/anna.jpg",
   },
   {
     id: "a2",
@@ -223,6 +221,7 @@ export const ACTIVITIES: Activity[] = [
     action: "joined the community",
     created_at: new Date(Date.now() - 3 * 3600000).toISOString(),
     avatar_color: "#00CFE8",
+    avatar_url: "/images/avatars/james.jpg",
   },
   {
     id: "a3",
@@ -230,6 +229,7 @@ export const ACTIVITIES: Activity[] = [
     action: "donated to Clean Water for Every Child",
     created_at: new Date(Date.now() - 6 * 3600000).toISOString(),
     avatar_color: "#FF9F43",
+    avatar_url: "/images/avatars/lisa.jpg",
   },
   {
     id: "a4",
@@ -237,6 +237,7 @@ export const ACTIVITIES: Activity[] = [
     action: "created a new campaign",
     created_at: new Date(Date.now() - 10 * 3600000).toISOString(),
     avatar_color: "#EA5455",
+    avatar_url: "/images/avatars/david.jpg",
   },
 ];
 

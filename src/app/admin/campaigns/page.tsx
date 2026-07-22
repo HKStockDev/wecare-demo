@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Plus, Search } from "lucide-react";
+import { SafeImage } from "@/components/SafeImage";
 import { Button, ProgressBar } from "@/components/ui";
 import { useCampaigns } from "@/lib/data";
 import { formatCurrency, percentRaised } from "@/lib/utils";
@@ -72,7 +72,7 @@ export default function AdminCampaignsPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="relative h-10 w-10 overflow-hidden rounded-lg">
-                          <Image src={c.image_url} alt="" fill className="object-cover" unoptimized />
+                          <SafeImage src={c.image_url} alt="" fill className="object-cover" />
                         </div>
                         <span className="font-semibold">{c.title}</span>
                       </div>

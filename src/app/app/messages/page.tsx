@@ -1,6 +1,7 @@
 "use client";
 
 import { Bell, MessageCircle } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
 import { NOTIFICATIONS } from "@/lib/demo-data";
 import { timeAgo } from "@/lib/utils";
 
@@ -10,18 +11,21 @@ const messages = [
     name: "Wecare Support",
     preview: "Thanks for joining our community!",
     time: "1h",
+    avatar: "/images/logo-mark.svg",
   },
   {
     id: "m2",
     name: "Education for All",
     preview: "Your donation helped 12 more students.",
     time: "1d",
+    avatar: "/images/campaigns/education.jpg",
   },
   {
     id: "m3",
     name: "Event Organizer",
     preview: "Reminder: Community Cleanup this Sunday.",
     time: "2d",
+    avatar: "/images/avatars/lisa.jpg",
   },
 ];
 
@@ -65,9 +69,7 @@ export default function MessagesPage() {
               key={m.id}
               className="flex items-center gap-3 rounded-xl border border-border px-3 py-3"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
-                {m.name[0]}
-              </div>
+              <Avatar src={m.avatar} name={m.name} size={44} />
               <div className="min-w-0 flex-1">
                 <div className="flex justify-between gap-2">
                   <p className="truncate text-sm font-semibold">{m.name}</p>

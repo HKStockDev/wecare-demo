@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Heart, Search } from "lucide-react";
+import { SafeImage } from "@/components/SafeImage";
 import { ProgressBar } from "@/components/ui";
 import { CATEGORIES } from "@/lib/demo-data";
 import { useCampaigns } from "@/lib/data";
@@ -68,7 +68,7 @@ function ExploreContent() {
             className="block overflow-hidden rounded-2xl border border-border bg-white shadow-sm"
           >
             <div className="relative h-40 w-full">
-              <Image src={c.image_url} alt={c.title} fill className="object-cover" unoptimized />
+              <SafeImage src={c.image_url} alt={c.title} fill className="object-cover" />
               <span className="absolute left-3 top-3 rounded-md bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-brand">
                 {c.category}
               </span>

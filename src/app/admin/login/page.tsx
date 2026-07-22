@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
       <div className="relative hidden flex-col justify-between bg-gradient-to-b from-[#071a16] via-[#0b2d26] to-[#0f3d32] p-10 text-white lg:flex">
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 overflow-hidden rounded-full bg-brand">
-            <Image src="/images/logo.png" alt="" fill className="object-cover" />
+            <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" />
           </div>
           <span className="text-xl font-extrabold text-brand-accent">Wecare</span>
         </div>
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
           <div className="mb-8 lg:hidden">
             <div className="flex items-center gap-2">
               <div className="relative h-9 w-9 overflow-hidden rounded-full bg-brand">
-                <Image src="/images/logo.png" alt="" fill className="object-cover" />
+                <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" />
               </div>
               <span className="text-lg font-extrabold text-brand">Wecare</span>
             </div>

@@ -13,6 +13,7 @@ import {
   Phone,
   User,
 } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
 import { Button, Field, Label, Textarea } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 
@@ -80,9 +81,7 @@ export default function CompleteProfilePage() {
 
       <div className="mb-6 flex flex-col items-center">
         <div className="relative">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-100 text-3xl font-bold text-muted">
-            {fullName?.[0] || "U"}
-          </div>
+          <Avatar src={user?.avatar_url} name={fullName} size={96} />
           <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-brand text-white shadow">
             <Camera className="h-4 w-4" />
           </span>

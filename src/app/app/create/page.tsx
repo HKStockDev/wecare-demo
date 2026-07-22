@@ -25,8 +25,7 @@ export default function CreateCampaignPage() {
       title,
       description,
       category,
-      image_url:
-        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80",
+      image_url: "/images/campaigns/community.jpg",
       goal_amount: Number(goal) || 10000,
       raised_amount: 0,
       donors_count: 0,

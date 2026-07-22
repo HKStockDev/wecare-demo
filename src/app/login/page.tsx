@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
+import { SafeImage } from "@/components/SafeImage";
 import { Button, Field } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
+import { DONOR_AVATARS } from "@/lib/demo-data";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -28,13 +31,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-dvh bg-[#f7faf8]">
-      <div className="phone-shell flex flex-col">
+    <div className="h-dvh overflow-hidden bg-[#f7faf8]">
+      <div className="phone-shell">
+        <div className="phone-shell-scroll">
         <div className="relative overflow-hidden px-6 pb-4 pt-10 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#d9f2e3,_transparent_55%)]" />
           <div className="relative">
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-brand shadow-md">
-              <Image src="/images/logo.png" alt="Wecare" width={56} height={56} className="object-cover" />
+              <Image src="/images/logo-mark.svg" alt="Wecare" width={56} height={56} className="object-cover" unoptimized />
             </div>
             <h1 className="text-2xl font-extrabold text-brand">Wecare</h1>
             <p className="mt-3 text-xl font-bold text-foreground">
@@ -44,16 +48,22 @@ export default function LoginPage() {
             <p className="mt-2 text-sm text-muted">
               Join our community and support amazing causes.
             </p>
-            <div className="mx-auto mt-5 flex h-28 w-full max-w-xs items-end justify-center rounded-2xl bg-brand-light/80">
-              <div className="flex -space-x-2 pb-3">
-                {["#1b8e3d", "#28c76f", "#0b2d26", "#6ee7a0"].map((c, i) => (
-                  <div
-                    key={c}
-                    className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-white text-lg font-bold text-white shadow"
-                    style={{ background: c, zIndex: 4 - i }}
-                  >
-                    {["J", "S", "A", "M"][i]}
-                  </div>
+            <div className="relative mx-auto mt-5 h-28 w-full max-w-xs overflow-hidden rounded-2xl">
+              <SafeImage
+                src="/images/login-hero.jpg"
+                alt="Community"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent" />
+              <div className="absolute bottom-3 left-0 right-0 flex justify-center -space-x-2">
+                {["/images/avatars/john.jpg", ...DONOR_AVATARS].map((src) => (
+                  <Avatar
+                    key={src}
+                    src={src}
+                    size={48}
+                    className="border-4 border-white shadow"
+                  />
                 ))}
               </div>
             </div>
@@ -131,6 +141,7 @@ export default function LoginPage() {
           <Link href="/" className="text-xs text-muted underline">
             Back to demo home
           </Link>
+        </div>
         </div>
       </div>
     </div>

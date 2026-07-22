@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import {
   ChevronRight,
   Heart,
@@ -10,11 +11,11 @@ import {
   Settings,
   Wallet,
 } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { useDonations } from "@/lib/data";
 import { formatCurrencyExact, timeAgo } from "@/lib/utils";
-import { useMemo } from "react";
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
@@ -35,9 +36,7 @@ export default function ProfilePage() {
     <div className="min-h-full bg-white">
       <div className="bg-gradient-to-b from-brand-light to-white px-4 pb-6 pt-8">
         <div className="flex items-center gap-4">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white shadow-md">
-            {user?.full_name?.[0] || "U"}
-          </div>
+          <Avatar src={user?.avatar_url} name={user?.full_name} size={80} />
           <div>
             <h1 className="text-xl font-extrabold">{user?.full_name}</h1>
             <p className="text-sm text-muted">{user?.email}</p>

@@ -17,9 +17,11 @@ import {
   Search,
   Users,
 } from "lucide-react";
+import { SafeImage } from "@/components/SafeImage";
+import { Avatar } from "@/components/Avatar";
 import { Button, ProgressBar } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
-import { CATEGORIES } from "@/lib/demo-data";
+import { CATEGORIES, DONOR_AVATARS } from "@/lib/demo-data";
 import { useCampaigns, useEvents, useNotifications } from "@/lib/data";
 import { formatCurrency, formatEventDate, percentRaised } from "@/lib/utils";
 
@@ -61,7 +63,7 @@ export default function HomePage() {
           </button>
           <div className="flex items-center gap-2">
             <div className="relative h-8 w-8 overflow-hidden rounded-full bg-brand">
-              <Image src="/images/logo.png" alt="" fill className="object-cover" />
+              <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" unoptimized />
             </div>
             <span className="text-lg font-extrabold text-brand">Wecare</span>
           </div>
@@ -74,8 +76,13 @@ export default function HomePage() {
             )}
           </Link>
         </div>
-        <h1 className="text-xl font-bold">Hello, {firstName} 👋</h1>
-        <p className="text-sm text-muted">Together, we can change lives 💚</p>
+        <div className="flex items-center gap-3">
+          <Avatar src={user?.avatar_url} name={user?.full_name} size={44} />
+          <div>
+            <h1 className="text-xl font-bold">Hello, {firstName} 👋</h1>
+            <p className="text-sm text-muted">Together, we can change lives 💚</p>
+          </div>
+        </div>
         <div className="relative mt-3">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
           <input
@@ -88,16 +95,27 @@ export default function HomePage() {
       </header>
 
       <div className="space-y-6 px-4 py-4">
-        <section className="overflow-hidden rounded-2xl bg-gradient-to-r from-[#d9f2e3] to-[#eefaf2] p-5">
-          <p className="text-lg font-bold text-foreground">
-            Small Act, <span className="text-brand">Big Impact</span>
-          </p>
-          <p className="mt-1 max-w-[200px] text-sm text-muted">
-            Your support can bring hope and change lives.
-          </p>
-          <Link href="/app/explore">
-            <Button className="mt-4">Donate Now</Button>
-          </Link>
+        <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#d9f2e3] to-[#eefaf2]">
+          <div className="relative z-10 p-5 pr-28">
+            <p className="text-lg font-bold text-foreground">
+              Small Act, <span className="text-brand">Big Impact</span>
+            </p>
+            <p className="mt-1 text-sm text-muted">
+              Your support can bring hope and change lives.
+            </p>
+            <Link href="/app/explore">
+              <Button className="mt-4">Donate Now</Button>
+            </Link>
+          </div>
+          <div className="absolute bottom-0 right-0 top-0 w-32">
+            <SafeImage
+              src="/images/hero-community.jpg"
+              alt="Community volunteers"
+              fill
+              className="object-cover object-left"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#eefaf2] via-[#eefaf2]/40 to-transparent" />
+          </div>
         </section>
 
         <section>
@@ -115,7 +133,7 @@ export default function HomePage() {
                 className="w-[240px] shrink-0 overflow-hidden rounded-2xl border border-border bg-white shadow-sm"
               >
                 <div className="relative h-32 w-full">
-                  <Image src={c.image_url} alt={c.title} fill className="object-cover" unoptimized />
+                  <SafeImage src={c.image_url} alt={c.title} fill className="object-cover" />
                   <span className="absolute bottom-2 left-2 rounded-md bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-brand">
                     {c.category}
                   </span>
@@ -132,7 +150,14 @@ export default function HomePage() {
                     </span>{" "}
                     raised of {formatCurrency(c.goal_amount)}
                   </p>
-                  <p className="mt-1 text-xs text-muted">{c.donors_count} donors</p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="flex -space-x-2">
+                      {DONOR_AVATARS.map((src) => (
+                        <Avatar key={src} src={src} size={22} className="border-2 border-white" />
+                      ))}
+                    </div>
+                    <p className="text-xs text-muted">{c.donors_count} donors</p>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -181,6 +206,9 @@ export default function HomePage() {
                   <div className="flex h-14 w-14 flex-col items-center justify-center rounded-xl bg-brand-light text-brand">
                     <span className="text-[10px] font-bold">{month}</span>
                     <span className="text-lg font-extrabold leading-none">{day}</span>
+                  </div>
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+                    <SafeImage src={ev.image_url} alt={ev.title} fill className="object-cover" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="truncate font-bold">{ev.title}</h3>

@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { ArrowLeft, Heart, Share2, Users } from "lucide-react";
+import { SafeImage } from "@/components/SafeImage";
 import { Button, ProgressBar } from "@/components/ui";
 import { useCampaigns } from "@/lib/data";
 import { formatCurrency, percentRaised } from "@/lib/utils";
@@ -35,12 +35,11 @@ export default function CampaignDetailPage() {
   return (
     <div className="bg-white min-h-full pb-8">
       <div className="relative h-56 w-full">
-        <Image
+        <SafeImage
           src={campaign.image_url}
           alt={campaign.title}
           fill
           className="object-cover"
-          unoptimized
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         <button

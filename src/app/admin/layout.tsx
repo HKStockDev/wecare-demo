@@ -17,6 +17,7 @@ import {
   Users,
   UsersRound,
 } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="border-b border-white/10 px-5 py-5">
           <div className="flex items-center gap-2.5">
             <div className="relative h-9 w-9 overflow-hidden rounded-full bg-brand-accent">
-              <Image src="/images/logo.png" alt="" fill className="object-cover" />
+              <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" unoptimized />
             </div>
             <div>
               <p className="font-extrabold leading-tight">Wecare</p>
@@ -130,9 +131,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-brand-accent" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
-                A
-              </div>
+              <Avatar src={user.avatar_url} name={user.full_name} size={36} />
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold leading-tight">{user.full_name}</p>
                 <p className="text-[11px] text-muted">Administrator</p>

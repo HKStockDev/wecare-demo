@@ -210,6 +210,7 @@ export function useActivities() {
               action: String(a.action),
               created_at: String(a.created_at),
               avatar_color: String(a.avatar_color || "#28C76F"),
+              avatar_url: a.avatar_url ? String(a.avatar_url) : undefined,
             }))
           );
         }

@@ -1,9 +1,12 @@
 "use client";
 
-import { ACTIVITIES } from "@/lib/demo-data";
+import { Avatar } from "@/components/Avatar";
+import { useActivities } from "@/lib/data";
 import { timeAgo } from "@/lib/utils";
 
 export default function AdminCommunityPage() {
+  const { activities } = useActivities();
+
   return (
     <div className="space-y-6">
       <div>
@@ -12,14 +15,12 @@ export default function AdminCommunityPage() {
       </div>
       <div className="rounded-2xl border border-border bg-white p-5 shadow-sm">
         <div className="space-y-4">
-          {ACTIVITIES.map((a) => (
-            <div key={a.id} className="flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
-              <div
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                style={{ background: a.avatar_color }}
-              >
-                {a.user_name[0]}
-              </div>
+          {activities.map((a) => (
+            <div
+              key={a.id}
+              className="flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0"
+            >
+              <Avatar src={a.avatar_url} name={a.user_name} size={44} />
               <div>
                 <p className="text-sm">
                   <span className="font-semibold">{a.user_name}</span>{" "}

@@ -33,7 +33,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   if (loading || !user || user.role === "admin") {
     return (
-      <div className="flex min-h-dvh items-center justify-center bg-[#f7faf8]">
+      <div className="flex h-dvh items-center justify-center bg-[#f7faf8]">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
       </div>
     );
@@ -42,9 +42,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const hideNav = pathname.includes("/donate") || pathname.includes("/profile/complete");
 
   return (
-    <div className="min-h-dvh bg-[#eef2f0]">
-      <div className="phone-shell pb-24">
-        {children}
+    <div className="h-dvh overflow-hidden bg-[#eef2f0]">
+      <div className={cn("phone-shell", hideNav ? "" : "pb-0")}>
+        <div className={cn("phone-shell-scroll", !hideNav && "pb-24")}>
+          {children}
+        </div>
         {!hideNav && (
           <nav className="absolute bottom-0 left-0 right-0 z-20 border-t border-border bg-white px-2 pb-3 pt-2">
             <div className="relative flex items-end justify-around">

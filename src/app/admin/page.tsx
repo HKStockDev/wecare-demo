@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   BarChart3,
@@ -20,6 +19,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Avatar } from "@/components/Avatar";
+import { SafeImage } from "@/components/SafeImage";
 import { ProgressBar } from "@/components/ui";
 import {
   ADMIN_STATS,
@@ -140,7 +141,7 @@ export default function AdminDashboardPage() {
               return (
                 <div key={c.id} className="flex gap-3">
                   <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl">
-                    <Image src={c.image_url} alt="" fill className="object-cover" unoptimized />
+                    <SafeImage src={c.image_url} alt="" fill className="object-cover" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{c.title}</p>
@@ -191,12 +192,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-3">
             {activities.map((a) => (
               <div key={a.id} className="flex gap-3">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                  style={{ background: a.avatar_color }}
-                >
-                  {a.user_name[0]}
-                </div>
+                <Avatar src={a.avatar_url} name={a.user_name} size={40} />
                 <div>
                   <p className="text-sm">
                     <span className="font-semibold">{a.user_name}</span>{" "}
