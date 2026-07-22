@@ -154,8 +154,11 @@ export default function LoginPage() {
             <ShieldCheck className="h-4 w-4" />
             Your data is safe and secure with us.
           </div>
-          <Link href="/" className="text-xs text-muted underline">
-            Back to demo home
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:underline"
+          >
+            ← Go to first page
           </Link>
         </div>
         </div>

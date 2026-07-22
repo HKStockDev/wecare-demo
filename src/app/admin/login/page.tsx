@@ -163,9 +163,14 @@ export default function AdminLoginPage() {
 
           <p className="mt-8 text-center text-xs text-muted">
             © 2025 <span className="font-semibold text-brand">Wecare</span>. All rights
-            reserved.{" "}
-            <Link href="/" className="underline">
-              Demo home
+            reserved.
+          </p>
+          <p className="mt-3 text-center">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline"
+            >
+              ← Go to first page
             </Link>
           </p>
         </div>

@@ -86,6 +86,14 @@ export default function RegisterPage() {
             Sign In
           </Link>
         </p>
+        <p className="mt-4 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline"
+          >
+            ← Go to first page
+          </Link>
+        </p>
       </div>
     </div>
   );

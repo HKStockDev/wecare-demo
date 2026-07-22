@@ -21,6 +21,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { SafeImage } from "@/components/SafeImage";
 import { Avatar } from "@/components/Avatar";
 import { Button, ProgressBar } from "@/components/ui";
+import { useAppMenu } from "@/lib/app-menu";
 import { useAuth } from "@/lib/auth";
 import { CATEGORIES, DONOR_AVATARS } from "@/lib/demo-data";
 import { useCampaigns, useEvents, useNotifications } from "@/lib/data";
@@ -38,6 +39,7 @@ const iconMap = {
 
 export default function HomePage() {
   const { user } = useAuth();
+  const { openMenu } = useAppMenu();
   const [query, setQuery] = useState("");
   const { campaigns: allCampaigns } = useCampaigns();
   const { events } = useEvents();
@@ -60,7 +62,12 @@ export default function HomePage() {
     <div className="bg-white">
       <header className="sticky top-0 z-10 border-b border-border/60 bg-white/95 px-4 pb-3 pt-4 backdrop-blur">
         <div className="mb-3 flex items-center justify-between">
-          <button type="button" className="rounded-lg p-1 text-foreground">
+          <button
+            type="button"
+            className="rounded-lg p-1 text-foreground"
+            aria-label="Open menu"
+            onClick={openMenu}
+          >
             <Menu className="h-6 w-6" />
           </button>
           <div className="flex items-center gap-2">
