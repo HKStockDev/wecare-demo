@@ -17,6 +17,7 @@ import {
   Search,
   Users,
 } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { SafeImage } from "@/components/SafeImage";
 import { Avatar } from "@/components/Avatar";
 import { Button, ProgressBar } from "@/components/ui";
@@ -24,6 +25,7 @@ import { useAuth } from "@/lib/auth";
 import { CATEGORIES, DONOR_AVATARS } from "@/lib/demo-data";
 import { useCampaigns, useEvents, useNotifications } from "@/lib/data";
 import { formatCurrency, formatEventDate, percentRaised } from "@/lib/utils";
+import { avatarForName } from "@/lib/avatars";
 
 const iconMap = {
   GraduationCap,
@@ -62,9 +64,7 @@ export default function HomePage() {
             <Menu className="h-6 w-6" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="relative h-8 w-8 overflow-hidden rounded-full bg-brand">
-              <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" unoptimized />
-            </div>
+            <BrandLogo size={32} />
             <span className="text-lg font-extrabold text-brand">Wecare</span>
           </div>
           <Link href="/app/messages" className="relative rounded-lg p-1">
@@ -77,10 +77,34 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          <Avatar src={user?.avatar_url} name={user?.full_name} size={44} />
+          <Avatar
+            src={user?.avatar_url || avatarForName(user?.full_name)}
+            name={user?.full_name}
+            size={44}
+          />
           <div>
-            <h1 className="text-xl font-bold">Hello, {firstName} 👋</h1>
-            <p className="text-sm text-muted">Together, we can change lives 💚</p>
+            <h1 className="flex items-center gap-1.5 text-xl font-bold">
+              Hello, {firstName}
+              <Image
+                src="/images/icon-wave.png"
+                alt=""
+                width={22}
+                height={22}
+                className="inline-block"
+                unoptimized
+              />
+            </h1>
+            <p className="flex items-center gap-1 text-sm text-muted">
+              Together, we can change lives
+              <Image
+                src="/images/icon-heart.png"
+                alt=""
+                width={16}
+                height={16}
+                className="inline-block"
+                unoptimized
+              />
+            </p>
           </div>
         </div>
         <div className="relative mt-3">

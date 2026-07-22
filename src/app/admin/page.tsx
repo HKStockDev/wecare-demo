@@ -162,18 +162,9 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl border border-border bg-white p-5 shadow-sm">
           <h2 className="mb-4 font-bold">Recent Donations</h2>
           <div className="space-y-3">
-            {donations.map((d, i) => (
+            {donations.map((d) => (
               <div key={d.id} className="flex items-center gap-3">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-full text-white"
-                  style={{
-                    background: ["#28C76F", "#00CFE8", "#FF9F43", "#EA5455", "#7367F0"][
-                      i % 5
-                    ],
-                  }}
-                >
-                  <Heart className="h-4 w-4" />
-                </div>
+                <Avatar src={undefined} name={d.donor_name} size={40} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold">{d.donor_name}</p>
                   <p className="truncate text-xs text-muted">{d.campaign_title}</p>
@@ -192,7 +183,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-3">
             {activities.map((a) => (
               <div key={a.id} className="flex gap-3">
-                <Avatar src={a.avatar_url} name={a.user_name} size={40} />
+                <Avatar name={a.user_name} src={a.avatar_url} size={40} />
                 <div>
                   <p className="text-sm">
                     <span className="font-semibold">{a.user_name}</span>{" "}

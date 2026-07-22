@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
+import { BrandLogo } from "@/components/BrandLogo";
 import { SafeImage } from "@/components/SafeImage";
 import { Button, Field } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
@@ -47,8 +48,8 @@ export default function LoginPage() {
         <div className="relative overflow-hidden px-6 pb-4 pt-10 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#d9f2e3,_transparent_55%)]" />
           <div className="relative">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-brand shadow-md">
-              <Image src="/images/logo-mark.svg" alt="Wecare" width={56} height={56} className="object-cover" unoptimized />
+            <div className="mx-auto mb-3">
+              <BrandLogo size={56} />
             </div>
             <h1 className="text-2xl font-extrabold text-brand">Wecare</h1>
             <p className="mt-3 text-xl font-bold text-foreground">
@@ -124,13 +125,18 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-2">
-            {["Google", "Apple", "Facebook"].map((p) => (
+            {[
+              { name: "Google", icon: "/images/social-google.svg" },
+              { name: "Apple", icon: "/images/social-apple.svg" },
+              { name: "Facebook", icon: "/images/social-facebook.svg" },
+            ].map((p) => (
               <button
-                key={p}
+                key={p.name}
                 type="button"
-                className="rounded-xl border border-border py-2.5 text-xs font-semibold text-foreground hover:bg-gray-50"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-border py-2.5 text-xs font-semibold text-foreground hover:bg-gray-50"
               >
-                {p}
+                <Image src={p.icon} alt="" width={18} height={18} unoptimized />
+                {p.name}
               </button>
             ))}
           </div>

@@ -11,7 +11,7 @@ const messages = [
     name: "Wecare Support",
     preview: "Thanks for joining our community!",
     time: "1h",
-    avatar: "/images/logo-mark.svg",
+    avatar: "/images/logo-mark.png",
   },
   {
     id: "m2",

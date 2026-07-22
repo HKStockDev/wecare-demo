@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, KeyRound, Lock, Mail, Shield } from "lucide-react";
 import { Button, Field } from "@/components/ui";
+import { Avatar } from "@/components/Avatar";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useAuth } from "@/lib/auth";
 import { useRedirectIfAuthenticated } from "@/lib/use-redirect-if-authenticated";
 
@@ -42,9 +43,7 @@ export default function AdminLoginPage() {
     <div className="grid min-h-dvh lg:grid-cols-2">
       <div className="relative hidden flex-col justify-between bg-gradient-to-b from-[#071a16] via-[#0b2d26] to-[#0f3d32] p-10 text-white lg:flex">
         <div className="flex items-center gap-3">
-          <div className="relative h-10 w-10 overflow-hidden rounded-full bg-brand">
-            <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" />
-          </div>
+          <BrandLogo size={40} />
           <span className="text-xl font-extrabold text-brand-accent">Wecare</span>
         </div>
 
@@ -56,14 +55,18 @@ export default function AdminLoginPage() {
             Sign in to your admin account to continue managing Wecare.
           </p>
           <div className="mt-10 flex -space-x-3">
-            {["#28c76f", "#1b8e3d", "#0b2d26", "#6ee7a0"].map((c, i) => (
-              <div
-                key={c}
-                className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#0b2d26] text-lg font-bold"
-                style={{ background: c, zIndex: 4 - i }}
-              >
-                {["A", "S", "J", "M"][i]}
-              </div>
+            {[
+              "/images/avatars/admin.jpg",
+              "/images/avatars/sarah.jpg",
+              "/images/avatars/john.jpg",
+              "/images/avatars/michael.jpg",
+            ].map((src) => (
+              <Avatar
+                key={src}
+                src={src}
+                size={64}
+                className="border-4 border-[#0b2d26]"
+              />
             ))}
           </div>
         </div>
@@ -78,9 +81,7 @@ export default function AdminLoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-8 lg:hidden">
             <div className="flex items-center gap-2">
-              <div className="relative h-9 w-9 overflow-hidden rounded-full bg-brand">
-                <Image src="/images/logo-mark.svg" alt="" fill className="object-cover" />
-              </div>
+              <BrandLogo size={36} />
               <span className="text-lg font-extrabold text-brand">Wecare</span>
             </div>
           </div>

@@ -1,21 +1,13 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, LayoutDashboard, Smartphone } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export default function HomePage() {
   return (
     <main className="min-h-dvh bg-gradient-to-br from-[#0b2d26] via-[#0f3d32] to-[#1b8e3d] text-white">
       <div className="mx-auto flex min-h-dvh max-w-5xl flex-col items-center justify-center px-6 py-16">
         <div className="mb-8 flex flex-col items-center gap-4 text-center">
-          <div className="relative h-24 w-24 overflow-hidden rounded-full bg-brand-accent shadow-lg shadow-black/30">
-            <Image
-              src="/images/logo-mark.svg"
-              alt="Wecare"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
+          <BrandLogo size={96} className="shadow-lg shadow-black/30" />
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             Wecare
           </h1>

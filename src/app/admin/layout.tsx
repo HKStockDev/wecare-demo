@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,7 +16,9 @@ import {
   Users,
   UsersRound,
 } from "lucide-react";
+import Image from "next/image";
 import { Avatar } from "@/components/Avatar";
+import { BrandLogo } from "@/components/BrandLogo";
 import { AdminAlertsProvider, useAdminAlerts } from "@/lib/admin-alerts";
 import { useAuth } from "@/lib/auth";
 import { cn, timeAgo } from "@/lib/utils";
@@ -124,15 +125,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col bg-brand-dark text-white lg:flex">
           <div className="border-b border-white/10 px-5 py-5">
             <div className="flex items-center gap-2.5">
-              <div className="relative h-9 w-9 overflow-hidden rounded-full bg-brand-accent">
-                <Image
-                  src="/images/logo-mark.svg"
-                  alt=""
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
+              <BrandLogo size={36} />
               <div>
                 <p className="font-extrabold leading-tight">Wecare</p>
                 <p className="text-[10px] text-white/50">Together for a kinder world.</p>
@@ -165,21 +158,33 @@ function AdminShell({ children }: { children: React.ReactNode }) {
             })}
           </nav>
 
-          <div className="mx-3 mb-4 rounded-2xl bg-[#0f3d32] p-4">
-            <p className="text-sm font-bold">Together We Make a Difference</p>
-            <p className="mt-1 text-xs text-white/55">
-              Manage impact. Empower communities.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                logout();
-                router.replace("/admin/login");
-              }}
-              className="mt-3 flex items-center gap-2 text-xs font-semibold text-brand-accent"
-            >
-              <LogOut className="h-3.5 w-3.5" /> Sign out
-            </button>
+          <div className="mx-3 mb-4 overflow-hidden rounded-2xl bg-[#0f3d32]">
+            <div className="relative h-16 w-full">
+              <Image
+                src="/images/admin-sidebar-art.jpg"
+                alt=""
+                fill
+                className="object-cover opacity-70"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0f3d32] to-transparent" />
+            </div>
+            <div className="p-4 pt-2">
+              <p className="text-sm font-bold">Together We Make a Difference</p>
+              <p className="mt-1 text-xs text-white/55">
+                Manage impact. Empower communities.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  router.replace("/admin/login");
+                }}
+                className="mt-3 flex items-center gap-2 text-xs font-semibold text-brand-accent"
+              >
+                <LogOut className="h-3.5 w-3.5" /> Sign out
+              </button>
+            </div>
           </div>
         </aside>
 

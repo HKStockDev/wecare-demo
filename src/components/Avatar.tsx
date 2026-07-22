@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { avatarForName } from "@/lib/avatars";
 import { cn } from "@/lib/utils";
 
 type AvatarProps = {
@@ -12,8 +13,6 @@ type AvatarProps = {
   alt?: string;
 };
 
-const DEFAULT_AVATAR = "/images/avatar-default.svg";
-
 export function Avatar({
   src,
   name = "",
@@ -21,8 +20,9 @@ export function Avatar({
   className,
   alt,
 }: AvatarProps) {
+  const resolved = avatarForName(name, src);
   const [failed, setFailed] = useState(false);
-  const showPhoto = Boolean(src) && !failed;
+  const imageSrc = failed ? "/images/avatar-default.svg" : resolved;
 
   return (
     <div
@@ -33,7 +33,7 @@ export function Avatar({
       style={{ width: size, height: size }}
     >
       <Image
-        src={showPhoto ? (src as string) : DEFAULT_AVATAR}
+        src={imageSrc}
         alt={alt || name || "User"}
         fill
         className="object-cover"
